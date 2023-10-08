@@ -12,11 +12,8 @@ services:
       TELEGRAM_API_ID: 20448273
       TELEGRAM_API_HASH: 25a0ad7791e66b9f53d79c52178ec358
     command:
-      # set working directory for files
-      - --dir=/var/lib/telegram-bot-api
+
       - --local
-      # enable logging, disable in production
-      - --verbosity=2
     volumes:
       # mount volume for persistance of files
       - server-data:/var/lib/telegram-bot-api
