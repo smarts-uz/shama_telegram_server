@@ -9,10 +9,11 @@ from aiogram.filters import CommandStart
 from aiogram.types import Message, Document
 from aiogram.utils.markdown import hbold
 from telethon.sync import TelegramClient
+from telegram.ext import Updater
 
 
 TOKEN = getenv('6321096156:AAGg2IoFSMNmaMwbE4V5-GkxgSbR063Oh0s')
-BASE_URL = 'http://127.0.0.1:8083/bot'
+BASE_URL = 'http://127.0.0.1:8082/bot'
 bot = Bot(token='6321096156:AAGg2IoFSMNmaMwbE4V5-GkxgSbR063Oh0s')
 dp = Dispatcher(base_url=BASE_URL, token=TOKEN)
 api_id = 20448273
@@ -31,7 +32,7 @@ with TelegramClient('anon', api_id, api_hash) as client:
 
 
     @dp.message()
-    async def echo_handler(message: Document) -> None:
+    async def echo_handler(message: Message) -> None:
         try:
             await message.send_copy(chat_id=message.chat.id)
         except TypeError:

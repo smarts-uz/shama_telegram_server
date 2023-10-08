@@ -8,6 +8,8 @@ services:
       TELEGRAM_API_HASH: "25a0ad7791e66b9f53d79c52178ec358"
     volumes:
       - telegram-bot-api-data:/var/lib/telegram-bot-api
+    command:
+      - --local
     ports:
       - 8082:8081
 
