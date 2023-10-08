@@ -1,0 +1,25 @@
+version: '3.8'
+
+volumes:
+  server-data:
+    driver: local
+
+services:
+  server:
+    image: ghcr.io/bots-house/docker-telegram-bot-api:latest
+    environment:
+      # get this values from https://core.telegram.org/api/obtaining_api_id
+      TELEGRAM_API_ID: 20448273
+      TELEGRAM_API_HASH: 25a0ad7791e66b9f53d79c52178ec358
+    command:
+      # set working directory for files
+      - --dir=/var/lib/telegram-bot-api
+      - --local
+      # enable logging, disable in production
+      - --verbosity=2
+    volumes:
+      # mount volume for persistance of files
+      - server-data:/var/lib/telegram-bot-api
+    ports:
+      # access the API on 8081 port
+      - 8083:8081
