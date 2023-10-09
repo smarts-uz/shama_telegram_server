@@ -1,0 +1,11 @@
+for xtrime-ru/TelegramApiServer run this command:
+    curl "http://127.0.0.1:9503/api/sendMedia?data[peer]=@tajbaev&data[message]=Hello" -g \-F "file=@/Users/shama/Desktop/file_ansible.zip"
+
+
+for send document run this command (i was using postman):
+        http://127.0.0.1:8084/bot6321096156:AAGg2IoFSMNmaMwbE4V5-GkxgSbR063Oh0s/sendDocument
+        (u should add here "chat_id" and "file")
+
+to getfile run this command (i was using postman):
+        http://127.0.0.1:8082/bot6321096156:AAGg2IoFSMNmaMwbE4V5-GkxgSbR063Oh0s/getFile
+        (u should add here "file_id")
