@@ -1,29 +1,29 @@
-version: '3.8'
+version: "2"
 
 volumes:
   server-data:
     driver: local
 
 services:
-  bots-house-telegram-bot-api:
-    image: ghcr.io/bots-house/docker-telegram-bot-api:latest
-    environment:
-      # get this values from https://core.telegram.org/api/obtaining_api_id
-      TELEGRAM_API_ID: 20448273
-      TELEGRAM_API_HASH: 25a0ad7791e66b9f53d79c52178ec358
-      TELEGRAM_LOCAL: 1
-    command:
-      # set working directory for files
-      - --dir=/var/lib/telegram-bot-api
-      - --local
-      # enable logging, disable in production
-      - --verbosity=2
-    volumes:
-      # mount volume for persistance of files
-      - server-data:/var/lib/telegram-bot-api
-    ports:
-      # access the API on 8081 port
-      - 8083:8081
+  # bots-house-telegram-bot-api:
+  #   image: ghcr.io/bots-house/docker-telegram-bot-api:latest
+  #   environment:
+  #     # get this values from https://core.telegram.org/api/obtaining_api_id
+  #     TELEGRAM_API_ID: 20448273
+  #     TELEGRAM_API_HASH: 25a0ad7791e66b9f53d79c52178ec358
+  #     TELEGRAM_LOCAL: 1
+  #   command:
+  #     # set working directory for files
+  #     - --dir=/var/lib/telegram-bot-api
+  #     - --local
+  #     # enable logging, disable in production
+  #     - --verbosity=2
+  #   volumes:
+  #     # mount volume for persistance of files
+  #     - server-data:/var/lib/telegram-bot-api
+  #   ports:
+  #     # access the API on 8081 port
+  #     - 8083:8081
 
 #  aiogram-telegram-bot-api:
 #      image: aiogram/telegram-bot-api:latest
@@ -34,15 +34,15 @@ services:
 #      ports:
 #        - 8082:8081
 
-  divideprojects-telegram-bot-api:
-      image: divideprojects/docker-telegram-bot-api:latest
-      environment:
-        TELEGRAM_API_ID: 20448273
-        TELEGRAM_API_HASH: "25a0ad7791e66b9f53d79c52178ec358"
-        TELEGRAM_LOCAL: 1
-        # you can also configure other env variables here
-      ports:
-        - 8081:8081
+  # divideprojects-telegram-bot-api:
+  #     image: divideprojects/docker-telegram-bot-api:latest
+  #     environment:
+  #       TELEGRAM_API_ID: 20448273
+  #       TELEGRAM_API_HASH: "25a0ad7791e66b9f53d79c52178ec358"
+  #       TELEGRAM_LOCAL: 1
+  #       # you can also configure other env variables here
+  #     ports:
+  #       - 8081:8081
 
   tdlight-tdlightbotapi:
     image: tdlight/tdlightbotapi:latest
@@ -52,46 +52,50 @@ services:
       TELEGRAM_LOCAL: 1
       # you can also configure other env variables here
     ports:
-      - 8084:8081
+      - 8081:8081
+    labels:
+      kompose.controller.type: deployment
+      kompose.service.type: nodeport
+      kompose.service.nodeport.port: "30015"
 
-  api:
-    image: xtrime/telegram-api-server:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
-    init: true
-    restart: unless-stopped
-    ports:
-      - "127.0.0.1:9503:9503"
-    volumes:
-      - ./:/app-host-link
-    working_dir: /app-host-link
-    depends_on:
-      - mysql
-    environment:
-      WAIT_HOSTS: mysql:3306
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1024k"
-        max-file: "2"
-    command:
-      - "-s=session"
-  mysql:
-    image: mariadb:11.0
-    restart: unless-stopped
-    ports:
-      - "127.0.0.1:9507:3306"
-    volumes:
-      - ./.mysql:/var/lib/mysql
-    environment:
-      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
-      MARIADB_AUTO_UPGRADE: 'yes'
-    command:
-      - --skip-grant-tables
-      - --innodb-buffer-pool-size=32M
-      - --wait_timeout=65
+#   api:
+#     image: xtrime/telegram-api-server:latest
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     init: true
+#     restart: unless-stopped
+#     ports:
+#       - "127.0.0.1:9503:9503"
+#     volumes:
+#       - ./:/app-host-link
+#     working_dir: /app-host-link
+#     depends_on:
+#       - mysql
+#     environment:
+#       WAIT_HOSTS: mysql:3306
+#     logging:
+#       driver: "json-file"
+#       options:
+#         max-size: "1024k"
+#         max-file: "2"
+#     command:
+#       - "-s=session"
+#   mysql:
+#     image: mariadb:11.0
+#     restart: unless-stopped
+#     ports:
+#       - "127.0.0.1:9507:3306"
+#     volumes:
+#       - ./.mysql:/var/lib/mysql
+#     environment:
+#       MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
+#       MARIADB_AUTO_UPGRADE: 'yes'
+#     command:
+#       - --skip-grant-tables
+#       - --innodb-buffer-pool-size=32M
+#       - --wait_timeout=65
 
-networks:
-  default:
-    name: telegram-api-server
+# networks:
+#   default:
+#     name: telegram-api-server

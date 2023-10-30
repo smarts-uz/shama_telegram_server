@@ -13,7 +13,7 @@ from telegram.ext import Updater
 
 
 TOKEN = getenv('6321096156:AAGg2IoFSMNmaMwbE4V5-GkxgSbR063Oh0s')
-BASE_URL = 'http://127.0.0.1:9503/bot'
+BASE_URL = 'http://127.0.0.1:8081/bot'
 bot = Bot(token='6321096156:AAGg2IoFSMNmaMwbE4V5-GkxgSbR063Oh0s')
 dp = Dispatcher(base_url=BASE_URL, token=TOKEN)
 api_id = 20448273

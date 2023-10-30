@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.controller.type: deployment
+    kompose.service.nodeport.port: "30015"
+    kompose.service.type: nodeport
+    kompose.version: 1.17.0 (a74acad)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: tdlight-tdlightbotapi
+  name: tdlight-tdlightbotapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tdlight-tdlightbotapi
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: tdlight-tdlightbotapi
+        app: tdlight-tdlightbotapi
+    spec:
+      containers:
+      - env:
+        - name: TELEGRAM_API_HASH
+          value: 25a0ad7791e66b9f53d79c52178ec358
+        - name: TELEGRAM_API_ID
+          value: "20448273"
+        - name: TELEGRAM_LOCAL
+          value: "1"
+        image: tdlight/tdlightbotapi:latest
+        name: tdlight-tdlightbotapi
+        ports:
+        - containerPort: 8081
+        resources: {}
+      restartPolicy: Always
+status: {}
